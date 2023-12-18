@@ -1,0 +1,105 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/customers/{id}": {
+            "get": {
+                "description": "Get Customer details by ID including address and orders",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve customer",
+                "operationId": "get-customer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Customer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Customer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Address": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "customerID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Customer": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/model.Address"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "orders": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Order"
+                    }
+                }
+            }
+        },
+        "model.Order": {
+            "type": "object",
+            "properties": {
+                "customerID": {
+                    "type": "integer"
+                },
+                "orderDate": {
+                    "type": "string"
+                },
+                "orderDetails": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrderDetail"
+                    }
+                },
+                "totalPrice": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.OrderDetail": {
+            "type": "object",
+            "properties": {
+                "orderID": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "productID": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

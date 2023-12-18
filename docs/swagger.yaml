@@ -1,0 +1,67 @@
+definitions:
+  model.Address:
+    properties:
+      address:
+        type: string
+      customerID:
+        type: integer
+    type: object
+  model.Customer:
+    properties:
+      address:
+        $ref: '#/definitions/model.Address'
+      email:
+        type: string
+      name:
+        type: string
+      orders:
+        items:
+          $ref: '#/definitions/model.Order'
+        type: array
+    type: object
+  model.Order:
+    properties:
+      customerID:
+        type: integer
+      orderDate:
+        type: string
+      orderDetails:
+        items:
+          $ref: '#/definitions/model.OrderDetail'
+        type: array
+      totalPrice:
+        type: number
+    type: object
+  model.OrderDetail:
+    properties:
+      orderID:
+        type: integer
+      price:
+        type: number
+      productID:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /customers/{id}:
+    get:
+      description: Get Customer details by ID including address and orders
+      operationId: get-customer
+      parameters:
+      - description: Customer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Customer'
+      summary: Retrieve customer
+swagger: "2.0"
